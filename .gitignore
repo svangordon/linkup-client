@@ -4,3 +4,4 @@ server/config.js
 .DS_Store
 dist
 npm-debug.log
+.gulp-cache

@@ -10,7 +10,9 @@ var gulp        = require('gulp'),
     nodemon     = require('gulp-nodemon'),
     path        = require('path'),
     del         = require('del'),
-    Cache       = require('gulp-file-cache');
+    Cache       = require('gulp-file-cache'),
+    livereload  = require('gulp-livereload'),
+    notify      = require('gulp-notify');
 
 const cache = new Cache();
 
@@ -27,22 +29,30 @@ const paths = {
 
 const extensions = 'html js styl';
 
-gulp.task('default', ['dev', 'scripts', 'html', 'stylus', 'server', 'clean']);
+gulp.task('default', ['clean'], () => {
+  gulp.start('dev')
+});
 
-gulp.task('clean', () => {
+gulp.task('clean', (cb) => {
+  console.log('clean fired')
   return del(['dist']);
 });
 
-gulp.task('dev', ['scripts', 'html', 'stylus', 'server', 'clean'], () => {
+gulp.task('build-all', ['clean'], () => {
+  gulp.start('scripts', 'html', 'stylus', 'server');
+});
+
+gulp.task('dev', ['build-all', 'server'], () => {
+  livereload.listen();
   return stream = nodemon({
     script: './dist/server/server.js'
     , env: {'NODE_ENV': 'development'}
     , ext: extensions
     , watch: 'src'
-    , tasks: (changedFiles) => {
+    , tasks: ['build-all']/*(changedFiles) => {
       return changedFiles.filter((file) => {
+        console.log('file ==', file);
         const tasks = [];
-        // console.log('file ==', file, '\ndirname ==', path.dirname(file));
         if (path.extname(file) === '.js') {
           if (path.dirname(file).includes('src/server') && !~tasks.indexOf('server')) {
             tasks.push('server');
@@ -51,26 +61,31 @@ gulp.task('dev', ['scripts', 'html', 'stylus', 'server', 'clean'], () => {
           }
         }
         if (path.extname(file) === '.styl' && !~tasks.indexOf('stylus')) tasks.push('stylus');
-        if (path.extname(file) === '.html' && !~tasks.indexOf('html')) tasks.push('html');
+        if (path.extname(file) === '.html' && !~tasks.indexOf('html')){
+          tasks.push('html');
+          console.log('tasks ==', tasks)
+        };
       });
-    }
+    }*/
   });
   return stream;
 });
 
-gulp.task('scripts', ['clean'], () => {
+gulp.task('scripts', () => {
   const stream = gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
+    .pipe(cache.filter())
     .pipe(babel({
       presets: ['es2015']
     }))
     .pipe(concat('bundle.js'))
+    .pipe(cache.cache())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.public));
   return stream;
 });
 
-gulp.task('html', ['clean'], () => {
+gulp.task('html', () => {
   return gulp.src(paths.html)
     .pipe(sourcemaps.init())
     .pipe(htmlmin({
@@ -80,7 +95,7 @@ gulp.task('html', ['clean'], () => {
     .pipe(gulp.dest(paths.public));
 });
 
-gulp.task('stylus', ['clean'], () => {
+gulp.task('stylus', () => {
   return gulp.src(paths.stylus)
     .pipe(sourcemaps.init())
     .pipe(stylus())
@@ -88,12 +103,14 @@ gulp.task('stylus', ['clean'], () => {
     .pipe(gulp.dest(paths.public));
 });
 
-gulp.task('server', ['clean'], () => {
-  const stream = gulp.src(paths.server.src)
+gulp.task('server', () => {
+  return gulp.src(paths.server.src)
+    // .pipe(cache.filter())
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015']
     }))
+    // .pipe(cache.cache())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.server.dist))
   return stream;
