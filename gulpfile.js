@@ -16,6 +16,8 @@ var gulp        = require('gulp'),
 
 const cache = new Cache();
 
+// livereload({start: true})
+
 const paths = {
   scripts:  ['src/public/**/*.js'],
   stylus:   ['src/public/**/*.styl'],
@@ -44,31 +46,14 @@ gulp.task('build-all', ['clean'], () => {
 
 gulp.task('dev', ['build-all', 'server'], () => {
   livereload.listen();
-  return stream = nodemon({
+  return nodemon({
     script: './dist/server/server.js'
     , env: {'NODE_ENV': 'development'}
     , ext: extensions
     , watch: 'src'
-    , tasks: ['build-all']/*(changedFiles) => {
-      return changedFiles.filter((file) => {
-        console.log('file ==', file);
-        const tasks = [];
-        if (path.extname(file) === '.js') {
-          if (path.dirname(file).includes('src/server') && !~tasks.indexOf('server')) {
-            tasks.push('server');
-          } else if (!~tasks.indexOf('scripts')) {
-            tasks.push('scripts')
-          }
-        }
-        if (path.extname(file) === '.styl' && !~tasks.indexOf('stylus')) tasks.push('stylus');
-        if (path.extname(file) === '.html' && !~tasks.indexOf('html')){
-          tasks.push('html');
-          console.log('tasks ==', tasks)
-        };
-      });
-    }*/
+    , tasks: ['build-all']
   });
-  return stream;
+  // return stream;
 });
 
 gulp.task('scripts', () => {
@@ -81,7 +66,8 @@ gulp.task('scripts', () => {
     .pipe(concat('bundle.js'))
     .pipe(cache.cache())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.public));
+    .pipe(gulp.dest(paths.public))
+    // .pipe(livereload());
   return stream;
 });
 
@@ -92,7 +78,8 @@ gulp.task('html', () => {
       collapseWhitespace: true
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.public));
+    .pipe(gulp.dest(paths.public))
+    // .pipe(livereload());
 });
 
 gulp.task('stylus', () => {
@@ -100,7 +87,8 @@ gulp.task('stylus', () => {
     .pipe(sourcemaps.init())
     .pipe(stylus())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.public));
+    .pipe(gulp.dest(paths.public))
+    // .pipe(livereload());
 });
 
 gulp.task('server', () => {
