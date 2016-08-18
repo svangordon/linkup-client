@@ -5,7 +5,7 @@
   "main": "./build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp dev"
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "cron": "^1.1.0",
+    "del": "^2.2.2",
     "express": "^4.13.4",
     "express-session": "^1.14.0",
     "feedparser": "^1.1.4",
@@ -49,6 +50,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-data": "^1.2.1",
+    "gulp-file-cache": "0.0.1",
     "gulp-htmlmin": "^2.0.0",
     "gulp-jshint": "^2.0.1",
     "gulp-nodemon": "^2.1.0",
