@@ -2,10 +2,10 @@
   "name": "linkup",
   "version": "1.0.0",
   "description": "a news aggregator for EPL teams",
-  "main": "./server/server.js",
+  "main": "./build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp & nodemon"
+    "start": "gulp && nodemon"
   },
   "repository": {
     "type": "git",
