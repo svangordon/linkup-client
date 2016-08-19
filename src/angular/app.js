@@ -1,8 +1,10 @@
+import mainController from './controllers/es6MainCtrl';
+
 angular.module('linkupApp', [
   'linkupRoutes',
   'authService',
   'userService',
-  'mainCtrl',
+  // 'mainCtrl',
   'userCtrl',
   'dashCtrl',
   'dataService',
@@ -13,3 +15,4 @@ angular.module('linkupApp', [
     $httpProvider.interceptors.push('AuthInterceptor');
     // myProvider.configable = 'this string was set in config'
   })
+  .controller('mainController', mainController)

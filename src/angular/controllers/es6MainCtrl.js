@@ -1,6 +1,6 @@
 // Controller for the overarching page
 const dependancies = [$rootScope, $location, Auth, User];
-export class mainController {
+export default class mainController {
 	constructor($rootScope, $location, Auth, User) {
 		this.$rootScope = $rootScope;
 		this.$location = $location;
