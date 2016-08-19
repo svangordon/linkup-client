@@ -1,8 +1,8 @@
 angular.module('socialService', ['dataService'])
 
   // Makes calls to our API, which hits twitter.
-  // This should be changed to something like 'get tweets'
-  // And it just throws up a bunch of tweets to show the user,
+  // This should be changed to something like 'get tweets'.
+  // The call should return a bunch of tweets to show the user,
   // and we cache the api calls on the backend
 
   .factory('Twitter', function ($http, Team) {

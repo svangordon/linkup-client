@@ -8,8 +8,8 @@ angular.module('linkupApp', [
   'dataService',
   'dashFilters',
   'socialService'
-
 ])
   .config(function ($httpProvider) {
-    $httpProvider.interceptors.push('AuthInterceptor')
+    $httpProvider.interceptors.push('AuthInterceptor');
+    // myProvider.configable = 'this string was set in config'
   })

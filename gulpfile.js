@@ -19,9 +19,10 @@ const cache = new Cache();
 // livereload({start: true})
 
 const paths = {
-  scripts:  ['src/public/**/*.js'],
-  stylus:   ['src/public/**/*.styl'],
-  html:     ['src/public/**/*.html'],
+  scripts:  ['src/**/*.js'],
+  stylus:   ['src/**/*.styl'],
+  html:     ['src/**/*.html'],
+  json:     ['src/**/*.json'],
   public:   'dist',
   server: {
     src:    ['src/server/**/*.js'],
@@ -29,10 +30,11 @@ const paths = {
   }
 };
 
-const extensions = 'html js styl';
+const extensions = 'html js styl json';
 
 gulp.task('default', ['clean'], () => {
-  gulp.start('build-all')
+  gulp.start('build-all');
+  gulp.watch('src/**/*.*', ['build-all']);
 });
 
 gulp.task('clean', (cb) => {
@@ -41,7 +43,12 @@ gulp.task('clean', (cb) => {
 });
 
 gulp.task('build-all', () => {
-  gulp.start('scripts', 'html', 'stylus');
+  gulp.start('scripts', 'html', 'stylus', 'json');
+});
+
+gulp.task('json', () => {
+  return gulp.src(paths.json)
+    .pipe(gulp.dest(paths.public))
 });
 
 // gulp.task('dev', ['build-all', 'server'], () => {
@@ -59,25 +66,27 @@ gulp.task('build-all', () => {
 gulp.task('scripts', () => {
   const stream = gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
-    .pipe(cache.filter())
+    // .pipe(cache.filter())
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2015-script']
     }))
     .pipe(concat('bundle.js'))
-    .pipe(cache.cache())
+    // .pipe(cache.cache())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.public))
     // .pipe(livereload());
   return stream;
 });
 
+
+
 gulp.task('html', () => {
   return gulp.src(paths.html)
-    .pipe(sourcemaps.init())
-    .pipe(htmlmin({
-      collapseWhitespace: true
-    }))
-    .pipe(sourcemaps.write())
+    // .pipe(sourcemaps.init())
+    // .pipe(htmlmin({
+    //   collapseWhitespace: true
+    // }))
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.public))
     // .pipe(livereload());
 });
@@ -91,15 +100,15 @@ gulp.task('stylus', () => {
     // .pipe(livereload());
 });
 
-gulp.task('server', () => {
-  return gulp.src(paths.server.src)
-    // .pipe(cache.filter())
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    // .pipe(cache.cache())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.server.dist))
-  return stream;
-});
+// gulp.task('server', () => {
+//   return gulp.src(paths.server.src)
+//     // .pipe(cache.filter())
+//     .pipe(sourcemaps.init())
+//     .pipe(babel({
+//       presets: ['es2015']
+//     }))
+//     // .pipe(cache.cache())
+//     .pipe(sourcemaps.write())
+//     .pipe(gulp.dest(paths.server.dist))
+//   return stream;
+// });
