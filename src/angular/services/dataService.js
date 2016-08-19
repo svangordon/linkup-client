@@ -13,7 +13,7 @@ angular.module('dataService', ['userService'])
 
     rssFactory.teamFeed = function (team) {
       // console.log('team feed', team)
-      return $http.get('/api/rss/team/' + team)
+      return $http.get('http://localhost:5000/api/rss/team/' + team)
     }
 
     return rssFactory
@@ -23,7 +23,7 @@ angular.module('dataService', ['userService'])
     var scheduleFactory = {}
 
     scheduleFactory.team = function(team) {
-      return $http.get('/api/fd/team/schedule/' + team)
+      return $http.get('http://localhost:5000/api/fd/team/schedule/' + team)
     }
 
     return scheduleFactory
@@ -35,11 +35,11 @@ angular.module('dataService', ['userService'])
     var tableFactory = {}
 
     tableFactory.data = function () {
-      return $http.get('/api/fd/table')
+      return $http.get('http://localhost:5000/api/fd/table')
     }
 
     // I thought this would work but it doesn't?
-    // $http.get('/api/fd/table')
+    // $http.get('http://localhost:5000/api/fd/table')
     //   .then(function (resp) {
     //     tableFactory.table = resp.data
     //     console.log(tableFactory.table)
@@ -71,7 +71,7 @@ angular.module('dataService', ['userService'])
           })
         })
     }
-    getMatchday = function () {
+    const getMatchday = function () {
       tableFactory.data()
         .then (function (resp) {
           tableFactory.table = resp.data
@@ -89,15 +89,15 @@ angular.module('dataService', ['userService'])
     var teamFactory = {}
 
     teamFactory.all = function () {
-      return $http.get('/api/fd/teams')
+      return $http.get('http://localhost:5000/api/fd/teams')
     }
 
     teamFactory.logos = function () {
-      return $http.get('/api/fd/teams/logos')
+      return $http.get('http://localhost:5000/api/fd/teams/logos')
     }
 
     teamFactory.data = function (team) {
-      return $http.get('/api/fd/team/' + team)
+      return $http.get('http://localhost:5000/api/fd/team/' + team)
     }
 
     return teamFactory

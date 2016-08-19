@@ -7,22 +7,22 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
       {
         id: 'news',
         name: 'News',
-        href: 'html/views/pages/dash/rss.html'
+        href: 'html/dash/rss.html'
       },
       {
         id: 'schedule',
         name: 'Schedule',
-        href: 'html/views/pages/dash/schedule.html'
+        href: 'html/dash/schedule.html'
       },
       {
         id: 'table',
         name: 'Table',
-        href: 'html/views/pages/dash/table.html'
+        href: 'html/dash/table.html'
       },
       {
         id: 'social',
         name: 'Social',
-        href: 'html/views/pages/dash/social.html'
+        href: 'html/dash/social.html'
       }
     ]
 
@@ -202,7 +202,7 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
   })
 
   .controller('tableController', function (Table, User, Team, $location) {
-    var vm = this
+    var vm = this;
     vm.userTeam = {}
     vm.activeTeam = function (teamName) {
       return teamName === vm.userTeam.name
@@ -233,11 +233,11 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
 
   .controller('socialController', function (User, Team, Twitter, $sce) {
     var vm = this
-    Twitter.test()
-      .then(function (resp) {
-        // console.log(resp.data)
-        // vm.tweets = $sce.trustAsHtml(resp.data.html)
-      })
+    // Twitter.test()
+    //   .then(function (resp) {
+    //     // console.log(resp.data)
+    //     // vm.tweets = $sce.trustAsHtml(resp.data.html)
+    //   })
     vm.encodedTweets = []
     User.profile()
       .then(function (resp) {

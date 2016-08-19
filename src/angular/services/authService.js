@@ -5,7 +5,7 @@ angular.module('authService', [])
 
     // login
     authFactory.login = function (username, password) {
-      return $http.post('/api/authenticate', {
+      return $http.post('http://localhost:5000/api/authenticate', {
         username: username,
         password: password
       })
@@ -33,7 +33,7 @@ angular.module('authService', [])
     authFactory.getUser = function () {
       // console.log('getuser fired')
       if (AuthToken.getToken())
-        return $http.get('/api/me')
+        return $http.get('http://localhost:5000/api/me')
       else
         return $q.reject({message: 'User has no token.'})
     }

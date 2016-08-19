@@ -9,15 +9,15 @@ angular.module('socialService', ['dataService'])
     var twitterFactory = {}
 
     twitterFactory.test = function (){
-      return $http.get('/api/tw/test')
+      return $http.get('http://localhost:5000/api/tw/test')
     }
 
     twitterFactory.search = function (teamId) {
-      return $http.get('/api/tw/search/' + teamId)
+      return $http.get('http://localhost:5000/api/tw/search/' + teamId)
     }
 
     twitterFactory.getOne = function (id) {
-      return $http.get('/api/tw/getOne/' + id)
+      return $http.get('http://localhost:5000/api/tw/getOne/' + id)
     }
 
     // twitterFactory.timeline = function (teamCode) {
