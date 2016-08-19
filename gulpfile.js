@@ -22,7 +22,7 @@ const paths = {
   scripts:  ['src/public/**/*.js'],
   stylus:   ['src/public/**/*.styl'],
   html:     ['src/public/**/*.html'],
-  public:   'dist/public',
+  public:   'dist',
   server: {
     src:    ['src/server/**/*.js'],
     dist:  'dist/server'
@@ -32,7 +32,7 @@ const paths = {
 const extensions = 'html js styl';
 
 gulp.task('default', ['clean'], () => {
-  gulp.start('dev')
+  gulp.start('build-all')
 });
 
 gulp.task('clean', (cb) => {
@@ -40,21 +40,21 @@ gulp.task('clean', (cb) => {
   return del(['dist']);
 });
 
-gulp.task('build-all', ['clean'], () => {
-  gulp.start('scripts', 'html', 'stylus', 'server');
+gulp.task('build-all', () => {
+  gulp.start('scripts', 'html', 'stylus');
 });
 
-gulp.task('dev', ['build-all', 'server'], () => {
-  livereload.listen();
-  return nodemon({
-    script: './dist/server/server.js'
-    , env: {'NODE_ENV': 'development'}
-    , ext: extensions
-    , watch: 'src'
-    , tasks: ['build-all']
-  });
-  // return stream;
-});
+// gulp.task('dev', ['build-all', 'server'], () => {
+//   // livereload.listen();
+//   // return nodemon({
+//   //   script: './dist/server/server.js'
+//   //   , env: {'NODE_ENV': 'development'}
+//   //   , ext: extensions
+//   //   , watch: 'src'
+//   //   , tasks: ['build-all']
+//   // });
+//   // return stream;
+// });
 
 gulp.task('scripts', () => {
   const stream = gulp.src(paths.scripts)
