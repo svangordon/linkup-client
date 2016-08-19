@@ -39,7 +39,7 @@ const paths = {
 
 const extensions = 'html js styl json';
 
-gulp.task('default', ['dev'/* || 'serve'*/], () => {
+gulp.task('default', ['serve'], () => { //use 'serve' or 'dev' depending on which file server you want to use
   // gulp.start('dev');
   // gulp.watch('src/**/*.*', ['build-all']);
 });
@@ -56,6 +56,7 @@ gulp.task('build', ['scripts', 'html', 'stylus', 'json'], () => {
 gulp.task('json', () => {
   return gulp.src(paths.json)
     .pipe(gulp.dest(paths.public))
+    .pipe(plugins.connect.reload());
 });
 
 gulp.task('dev', ['build', 'watch'], () => {
@@ -90,7 +91,7 @@ gulp.task('scripts', () => {
       includeContent: true
     }))
     .pipe(gulp.dest(paths.public))
-    // .pipe(plugins.connect.reload());
+    .pipe(plugins.connect.reload());
 
   //   .pipe(sourcemaps.init())
   //   // .pipe(cache.filter())
@@ -110,7 +111,7 @@ gulp.task('serve', ['build', 'watch'], function() {
 		root: 'dist/',
 		port: 4242,
 		livereload: true,
-		fallback: paths.public + 'index.html'
+		fallback: paths.public + '/index.html'
 	});
 });
 
@@ -122,7 +123,7 @@ gulp.task('html', () => {
     // }))
     // .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.public))
-    // .pipe(livereload());
+    .pipe(plugins.connect.reload());
 });
 
 gulp.task('stylus', () => {
@@ -131,7 +132,7 @@ gulp.task('stylus', () => {
     .pipe(stylus())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.public))
-    // .pipe(livereload());
+    .pipe(plugins.connect.reload());
 });
 
 // gulp.task('server', () => {
