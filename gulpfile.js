@@ -33,8 +33,8 @@ const paths = {
 const extensions = 'html js styl json';
 
 gulp.task('default', ['clean'], () => {
-  gulp.start('build-all');
-  gulp.watch('src/**/*.*', ['build-all']);
+  gulp.start('dev');
+  // gulp.watch('src/**/*.*', ['build-all']);
 });
 
 gulp.task('clean', (cb) => {
@@ -42,8 +42,8 @@ gulp.task('clean', (cb) => {
   return del(['dist']);
 });
 
-gulp.task('build-all', () => {
-  gulp.start('scripts', 'html', 'stylus', 'json');
+gulp.task('build-all', ['scripts', 'html', 'stylus', 'json'], () => {
+  // gulp.start('scripts', 'html', 'stylus', 'json');
 });
 
 gulp.task('json', () => {
@@ -51,17 +51,17 @@ gulp.task('json', () => {
     .pipe(gulp.dest(paths.public))
 });
 
-// gulp.task('dev', ['build-all', 'server'], () => {
-//   // livereload.listen();
-//   // return nodemon({
-//   //   script: './dist/server/server.js'
-//   //   , env: {'NODE_ENV': 'development'}
-//   //   , ext: extensions
-//   //   , watch: 'src'
-//   //   , tasks: ['build-all']
-//   // });
-//   // return stream;
-// });
+gulp.task('dev', ['build-all'], () => {
+  livereload.listen();
+  return nodemon({
+    script: './server.js'
+    , env: {'NODE_ENV': 'development'}
+    , ext: extensions
+    , watch: 'src'
+    , tasks: ['build-all']
+  });
+  return stream;
+});
 
 gulp.task('scripts', () => {
   const stream = gulp.src(paths.scripts)
