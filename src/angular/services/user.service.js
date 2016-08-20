@@ -13,24 +13,24 @@ export default class UserService {
     }
 
 
-// // Move all of this to the constructor once it's a service
-//     const vm = this;
-//     this.userProfile = {
-//       retrieved: false,
-//       data: null
-//     }
-
-// this is only used in one place, and sort of doesn't make sense so long as there's not a way to edit users
-    // // get single user
-    // getById(id) {
-    //   return $http.get('http://localhost:5000/api/users/' + id)
-    // }
-
-// This is probably deprecated
-    // // get all users
-    // userFactory.all = function () {
-    //   return $http.get('http://localhost:5000/api/users')
-    // }
+    login(username, password) {
+      this.userProfile.loading = true;
+      return this.$http.post('http://localhost:5000/api/authenticate', {
+        username: username,
+        password: password
+      })
+        .then((data) => {
+          // AuthToken.setToken(data.data.token) //passprot ought to handle this now
+          this.userProfile.loading = false;
+          this.userProfile.loaded = true;
+          this.userProfile.user = data // review this it's probably wrong
+          console.log('userProfile.user ==', this.userProfile.user);
+        }, (error) => {
+          this.userProfile.loading = false;
+          this.userProfile.error = error;
+          console.error(error);
+        })
+    }
 
     // create user
     createUser(userData) {

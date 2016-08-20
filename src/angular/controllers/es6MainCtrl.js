@@ -6,7 +6,7 @@ export default class mainController {
 		this.$rootScope = $rootScope;
 		this.$location = $location;
 		this.Auth = Auth;
-		this.User = UserService;
+		this.UserService = UserService;
 		this.loginData = {
 			username: "",
 			password: ""
@@ -17,7 +17,7 @@ export default class mainController {
 // // TODO: Make this request logical and efficient (ie, make it only once)
 // // Ah, i think that i'm getting teamPref in a couple of different places, and I'm
 // // not caching it.
-// 		this.User.profile()
+// 		this.UserService.profile()
 // 			.then(function(resp) {
 // 				this.teamPref = resp.data.teamPref
 // 		})
@@ -32,7 +32,7 @@ export default class mainController {
 // 			this.loggedIn = this.Auth.isLoggedIn();
 //
 // 			// get user information on page load
-// 			this.User.profile()
+// 			this.UserService.profile()
 // 				.then((data) => {
 // 					this.user = data.data;
 // 				})
@@ -105,15 +105,15 @@ export default class mainController {
 
 		this.loginData.username = this.loginData.username.toLowerCase()
 
-		this.Auth.login(this.loginData.username, this.loginData.password)
+		this.UserService.login(this.loginData.username, this.loginData.password)
 			.then((data) => {
 				this.processing = false;
 
-				// if a user successfully logs in, redirect to users page
-				if (data.success)
-					this.$location.path('/dash');
-				else
-					this.error = data.message;
+				// // if a user successfully logs in, redirect to users page //really the user service should handle all of this
+				// if (data.success)
+				// 	this.$location.path('/dash');
+				// else
+				// 	this.error = data.message;
 
 			});
 	};
