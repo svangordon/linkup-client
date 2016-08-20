@@ -30,7 +30,7 @@ angular.module('userService', ['authService'])
 
     userFactory.profile = function () { // it doesn't make sense to do this checking here. we have to check server side anyway.
       // if (AuthToken.getToken())
-        return $http.get('http://localhost:5000/api/me')
+        return $http.get('http://localhost:5000/loadUser')
       // else
         // return $q.reject({message: 'User has no token.'})
     }
