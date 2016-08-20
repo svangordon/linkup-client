@@ -1,12 +1,12 @@
 // Controller for the overarching page
 // const dependancies = [$rootScope, $location, Auth, User];
 export default class mainController {
-	/*@ngInject;*/
-	constructor($rootScope, $location, Auth, User) {
+	/*@ngInject*/
+	constructor($rootScope, $location, Auth, UserService) {
 		this.$rootScope = $rootScope;
 		this.$location = $location;
 		this.Auth = Auth;
-		this.User = User;
+		this.User = UserService;
 		this.loginData = {
 			username: "",
 			password: ""
