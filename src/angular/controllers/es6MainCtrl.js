@@ -11,12 +11,12 @@ export default class mainController {
 			username: "",
 			password: ""
 		};
-		this.loggedIn = Auth.isLoggedIn(); // this Auth thing should be looked at. It may be silly.
+		this.loggedIn = this.Auth.isLoggedIn(); // this Auth thing should be looked at. It may be silly.
 
 // TODO: Make this request logical and efficient (ie, make it only once)
 // Ah, i think that i'm getting teamPref in a couple of different places, and I'm
 // not caching it.
-		User.profile()
+		this.User.profile()
 			.then(function(resp) {
 				this.teamPref = resp.data.teamPref
 		})
@@ -27,10 +27,10 @@ export default class mainController {
 // if that's the case.
 		// check to see if a user is logged in on every request
 		$rootScope.$on('$routeChangeStart', () => {
-			this.loggedIn = Auth.isLoggedIn();
+			this.loggedIn = this.Auth.isLoggedIn();
 
 			// get user information on page load
-			Auth.getUser()
+			this.Auth.getUser()
 				.then((data) => {
 					this.user = data.data;
 				})
@@ -103,7 +103,7 @@ export default class mainController {
 
 		this.loginData.username = this.loginData.username.toLowerCase()
 
-		Auth.login(this.loginData.username, this.loginData.password)
+		this.Auth.login(this.loginData.username, this.loginData.password)
 			.then((data) => {
 				this.processing = false;
 
@@ -118,7 +118,7 @@ export default class mainController {
 
 	// function to handle logging out
 	doLogout() {
-		Auth.logout();
+		this.Auth.logout();
 		this.user = '';
 
 		this.$location.path('/');
