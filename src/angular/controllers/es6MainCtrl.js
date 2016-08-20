@@ -1,7 +1,7 @@
 // Controller for the overarching page
 // const dependancies = [$rootScope, $location, Auth, User];
 export default class mainController {
-		/*@ngInject;*/
+	/*@ngInject;*/
 	constructor($rootScope, $location, Auth, User) {
 		this.$rootScope = $rootScope;
 		this.$location = $location;

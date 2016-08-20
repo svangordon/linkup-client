@@ -1,7 +1,5 @@
-angular.module('linkupRoutes', ['ngRoute'])
-
-  // configure our routes
-  .config(function($routeProvider, $locationProvider) {
+	/*@ngInject;*/
+export default function($routeProvider, $locationProvider) {
     $routeProvider
       // homepage
       .when('/', {
@@ -37,6 +35,6 @@ angular.module('linkupRoutes', ['ngRoute'])
       })
 
       //
-    var devMode = false;
+    var devMode = true;
     if (!devMode) $locationProvider.html5Mode(true)
-  })
+  }
