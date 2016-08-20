@@ -40,10 +40,10 @@ export default class mainController {
 	// var vm = this;
 	// alert('bang bang')
 	atHome () {
-		return $location.path() === '/' || $location.path() === ''
+		return $location.path() === '/' || this.$location.path() === ''
 	}
 	atSignup() {
-		return $location.path() === '/signup' //|| $location.path() === ''
+		return this.$location.path() === '/signup' //|| this.$location.path() === ''
 	}
 
 // TODO: move this call to a factory and the urls to the backend
@@ -51,7 +51,7 @@ export default class mainController {
 	bUrl() {
 		// console.log('fired')
 		// Turns out pictures look bad behind the dash
-		// if ($location.path() === '/dash'){
+		// if (this.$location.path() === '/dash'){
 		// 	return teamDashImg(vm.teamPref)
 		// }
 		var pics = {
@@ -67,9 +67,9 @@ export default class mainController {
 			'/dash' : '',
 			'/about' : pics.lights
 		}
-		if (urls[$location.path()] === undefined)
-			console.error(''+ $location.path() +' background not defined');
-		return urls[$location.path()] !== undefined ? urls[$location.path()] : ''
+		if (urls[this.$location.path()] === undefined)
+			console.error(''+ this.$location.path() +' background not defined');
+		return urls[this.$location.path()] !== undefined ? urls[this.$location.path()] : ''
 	}
 
 	// teamDashImg(path) {
@@ -109,7 +109,7 @@ export default class mainController {
 
 				// if a user successfully logs in, redirect to users page
 				if (data.success)
-					$location.path('/dash');
+					this.$location.path('/dash');
 				else
 					this.error = data.message;
 
@@ -121,7 +121,7 @@ export default class mainController {
 		Auth.logout();
 		this.user = '';
 
-		$location.path('/');
+		this.$location.path('/');
 	};
 
 
