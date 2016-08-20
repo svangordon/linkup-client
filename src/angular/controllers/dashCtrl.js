@@ -1,4 +1,4 @@
-angular.module('dashCtrl', ['dataService','authService','userService'])
+angular.module('dashCtrl', ['dataService','authService','ServicesModule'])
 
   .controller('dashController', function (Auth, User, $anchorScroll, $location, $timeout, Table, Team) {
     'ngInject';

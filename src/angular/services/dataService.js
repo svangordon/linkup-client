@@ -1,4 +1,4 @@
-angular.module('dataService', ['userService'])
+angular.module('dataService', ['ServicesModule'])
 
   // Handle making the various API calls. The heavy lifting should be moved
   // to the server, methinks, and all of these should be looked at. There's a couple

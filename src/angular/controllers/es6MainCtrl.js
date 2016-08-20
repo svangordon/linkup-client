@@ -13,28 +13,30 @@ export default class mainController {
 		};
 		this.loggedIn = this.Auth.isLoggedIn(); // this Auth thing should be looked at. It may be silly.
 
-// TODO: Make this request logical and efficient (ie, make it only once)
-// Ah, i think that i'm getting teamPref in a couple of different places, and I'm
-// not caching it.
-		this.User.profile()
-			.then(function(resp) {
-				this.teamPref = resp.data.teamPref
-		})
+// This isn't actually needed, and so should come out as soon as I'm sure it's junk
+// // TODO: Make this request logical and efficient (ie, make it only once)
+// // Ah, i think that i'm getting teamPref in a couple of different places, and I'm
+// // not caching it.
+// 		this.User.profile()
+// 			.then(function(resp) {
+// 				this.teamPref = resp.data.teamPref
+// 		})
 
-// Set listeners for route change, and update the user data on page load or something?
-// I'm not totally certain what this is doing, or why it's here. I'm also not certain
-// that context isn't going to change for the various lambdas: comeback and bind them
-// if that's the case.
-		// check to see if a user is logged in on every request
-		$rootScope.$on('$routeChangeStart', () => {
-			this.loggedIn = this.Auth.isLoggedIn();
-
-			// get user information on page load
-			this.Auth.getUser()
-				.then((data) => {
-					this.user = data.data;
-				})
-		});
+// This is a dumb way to keep track of this, so out the window it goes.
+// // Set listeners for route change, and update the user data on page load or something?
+// // I'm not totally certain what this is doing, or why it's here. I'm also not certain
+// // that context isn't going to change for the various lambdas: comeback and bind them
+// // if that's the case.
+// 		// check to see if a user is logged in on every request
+// 		$rootScope.$on('$routeChangeStart', () => {
+// 			this.loggedIn = this.Auth.isLoggedIn();
+//
+// 			// get user information on page load
+// 			this.User.profile()
+// 				.then((data) => {
+// 					this.user = data.data;
+// 				})
+// 		});
 
 	}
 	// var vm = this;
