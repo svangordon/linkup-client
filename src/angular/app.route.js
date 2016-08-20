@@ -34,7 +34,9 @@ export default function($routeProvider, $locationProvider) {
         controllerAs: 'vm'
       })
 
+      .otherwise('/')
+
       //
-    var devMode = true;
+    var devMode = false;
     if (!devMode) $locationProvider.html5Mode(true)
-  }
+}

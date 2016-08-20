@@ -28,11 +28,11 @@ angular.module('userService', ['authService'])
       return $http.delete('/api/users/' + id)
     }
 
-    userFactory.profile = function () {
-      if (AuthToken.getToken())
+    userFactory.profile = function () { // it doesn't make sense to do this checking here. we have to check server side anyway.
+      // if (AuthToken.getToken())
         return $http.get('http://localhost:5000/api/me')
-      else
-        return $q.reject({message: 'User has no token.'})
+      // else
+        // return $q.reject({message: 'User has no token.'})
     }
 
     userFactory.profile()

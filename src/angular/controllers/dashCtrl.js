@@ -1,6 +1,7 @@
 angular.module('dashCtrl', ['dataService','authService','userService'])
 
   .controller('dashController', function (Auth, User, $anchorScroll, $location, $timeout, Table, Team) {
+    'ngInject';
     var vm = this;
     vm.onOff = false
     vm.dashFrames = [
@@ -96,8 +97,11 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
 
 
   .controller('rssController', function (Rss, User) {
+    'ngInject';
     var vm = this;
     vm.activeCard;
+
+    console.log('rssController says hi')
 
     vm.setActive = function (index) {
       // if they're clicking on the active card, close it
@@ -119,6 +123,7 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
   })
 
   .controller('scheduleController', function (Schedule, User, Team, Table) {
+    'ngInject';
     var vm = this;
     // vm.table = Table.table
     // vm.matchday = Table.table.matchday
@@ -202,6 +207,7 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
   })
 
   .controller('tableController', function (Table, User, Team, $location) {
+    'ngInject';
     var vm = this;
     vm.userTeam = {}
     vm.activeTeam = function (teamName) {
@@ -210,8 +216,11 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
 
     User.profile()
       .then(function(resp) {
+        console.log('table resp = ', resp)
         vm.teamPref = resp.data.teamPref
         return resp.data.teamPref
+    }, (error) => {
+      console.error('promise returned error:', error)
     })
       .then(function(resp) {
         return Team.data(resp)
@@ -232,6 +241,7 @@ angular.module('dashCtrl', ['dataService','authService','userService'])
   })
 
   .controller('socialController', function (User, Team, Twitter, $sce) {
+    'ngInject';
     var vm = this
     // Twitter.test()
     //   .then(function (resp) {
