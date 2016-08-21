@@ -1,6 +1,6 @@
 angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
-  .controller('dashController', function (AuthService, User, $anchorScroll, $location, $timeout, Table, Team) {
+  .controller('dashController', function (AuthService, UserService, $anchorScroll, $location, $timeout, Table, Team) {
     'ngInject';
     var vm = this;
     vm.onOff = false
@@ -29,10 +29,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
     // TODO: get this out of the controller, move it to a factory so that multiple
     // controllers have access to this data
-    User.profile()
-      .then(function(resp) {
-        vm.teamPref = resp.data
-        Team.data(resp.data.teamPref)
+        Team.data(UserService.profile().teamPref)
           .then(function(resp) {
             vm.userTeam = resp.data
             var index = -1;
@@ -43,7 +40,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
             // })
           })
         // console.log('teamPref',vm.teamPref)
-      })
+
 
       // TODO: This should be moved out of the controller, but no time for that now
       // Table.data()
@@ -96,7 +93,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
 
 
-  .controller('rssController', function (Rss, User) {
+  .controller('rssController', function (Rss, UserService) {
     'ngInject';
     var vm = this;
     vm.activeCard;
@@ -111,18 +108,14 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
     // TODO: I can't find a way to do this in the dash crtl and pass it,
     //     so i'm doing it in each controller :/
-    User.profile()
+    Rss.teamFeed(UserService.profile().teamPref)
       .then(function(resp) {
-        vm.teamPref = resp.data.teamPref
-        Rss.teamFeed(vm.teamPref)
-          .then(function(resp) {
-            // console.log('teamfeed resp', resp.data)
-            vm.feed = resp.data
-          })
-    })
+        // console.log('teamfeed resp', resp.data)
+        vm.feed = resp.data
+      })
   })
 
-  .controller('scheduleController', function (Schedule, User, Team, Table) {
+  .controller('scheduleController', function (Schedule, UserService, Team, Table) {
     'ngInject';
     var vm = this;
     // vm.table = Table.table
@@ -130,7 +123,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
     vm.log = function(val) {console.log(val);}
 
     vm.setClasses = function(fixture) {
-      var out = {
+      const out = {
         'played' : false,
         'future' : false,
         'won' : false,
@@ -176,24 +169,23 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
     }
 
 
-    User.profile()
-      .then(function(resp) {
-        vm.teamPref = resp.data.teamPref
-        Schedule.team(vm.teamPref)
-        .then(function(resp) {
-          // console.log('team sched', resp.data)
-          vm.schedule = resp.data
-        })
-        .then(function() {
-          // TODO: pass full name along with the team pref(this api blows)
-          return Team.data(vm.teamPref)
-        })
-        .then(function (resp) {
-          // console.log('team data resp', resp.data)
-          vm.userTeam = resp.data
-        })
-        // vm.matchday = vm.table.matchday
+    // I think that this is getting the user's preferred team's schedule,
+    // and setting it to vm.userTeam
+    Schedule.team(UserService.profile().teamPref)
+    .then(function(resp) {
+      // console.log('team sched', resp.data)
+      vm.schedule = resp.data
     })
+    .then(function() {
+      // TODO: pass full name along with the team pref(this api blows)
+      return Team.data(UserService.profile().teamPref)
+    })
+    .then(function (resp) {
+      // console.log('team data resp', resp.data)
+      vm.userTeam = resp.data
+    })
+    // vm.matchday = vm.table.matchday
+
     Team.logos()
     .then(function(resp) {
       vm.logos = resp.data
@@ -206,7 +198,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
   })
 
-  .controller('tableController', function (Table, User, Team, $location) {
+  .controller('tableController', function (Table, UserService, Team, $location) {
     'ngInject';
     var vm = this;
     vm.userTeam = {}
@@ -214,17 +206,8 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
       return teamName === vm.userTeam.name
     }
 
-    User.profile()
-      .then(function(resp) {
-        console.log('table resp = ', resp)
-        vm.teamPref = resp.data.teamPref
-        return resp.data.teamPref
-    }, (error) => {
-      console.error('promise returned error:', error)
-    })
-      .then(function(resp) {
-        return Team.data(resp)
-      })
+
+    Team.data(UserService.profile().teamPref)
       .then(function(resp){
         vm.userTeam = resp.data
         return vm.userTeam
@@ -240,7 +223,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
   })
 
-  .controller('socialController', function (User, Team, Twitter, $sce) {
+  .controller('socialController', function (UserService, Team, Twitter, $sce) {
     'ngInject';
     var vm = this
     // Twitter.test()
@@ -249,14 +232,7 @@ angular.module('dashCtrl', ['dataService', 'ServicesModule'])
     //     // vm.tweets = $sce.trustAsHtml(resp.data.html)
     //   })
     vm.encodedTweets = []
-    User.profile()
-      .then(function (resp) {
-        return resp.data.teamPref
-        // vm.timeline = $sce.trustAsHtml(Twitter.timeline(resp.data.teamPref))
-      })
-      .then(function (teamPref) {
-        return Twitter.search(teamPref)
-      })
+    Twitter.search(UserService.profile().teamPref)
       .then(function (stream) {
         vm.tweets = stream.data.statuses
         // vm.tweets = vm.tweets.map(cur => cur.id)

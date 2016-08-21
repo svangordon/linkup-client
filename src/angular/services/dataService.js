@@ -31,7 +31,8 @@ angular.module('dataService', ['ServicesModule'])
 
 // TODO: There should be an api route that turns a shortname ('SWA')
 // into a long name ('Swansea City AFC')
-  .factory('Table', function ($http, User, Team) {
+  .factory('Table', function ($http, UserService, Team) {
+    'ngInject';
     var tableFactory = {}
 
     tableFactory.data = function () {
@@ -46,11 +47,9 @@ angular.module('dataService', ['ServicesModule'])
     //   })
 
 // TODO: I think that this is slowing things down -- it's making everything wait on this ajax call
-    function getStanding () {
-      User.profile()
-        .then(function (resp) {
-          return Team.data(resp.data.teamPref)
-        })
+    tableFactory.getStanding = () => {
+      console.log('team pref ==', UserService.profile().teamPref);
+      Team.data(UserService.profile().teamPref)
         .then(function (resp) {
           var teamPref = resp.data
           tableFactory.data()
@@ -79,7 +78,7 @@ angular.module('dataService', ['ServicesModule'])
         })
     }
 
-    getStanding()
+    tableFactory.getStanding()
     getMatchday()
     // console.log(tableFactory.userStanding)
     return tableFactory

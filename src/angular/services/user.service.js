@@ -1,9 +1,10 @@
 export default class UserService {
     /*@ngInject;*/
-    constructor($http, TokenService, $q) {
+    constructor($http, TokenService, $q, $location) {
       this.$http = $http;
       this.TokenService = TokenService;
       this.$q = $q;
+      this.$location = $location;
       this.userProfile = {
         loading: false,
         loaded: false,
@@ -19,12 +20,13 @@ export default class UserService {
         username: username,
         password: password
       })
-        .then((data) => {
+        .then((res) => {
           // TokenService.setToken(data.data.token) //passprot ought to handle this now
           this.userProfile.loading = false;
           this.userProfile.loaded = true;
-          this.userProfile.user = data // review this it's probably wrong
+          this.userProfile.user = res.data;
           console.log('userProfile.user ==', this.userProfile.user);
+          this.$location.path('/dash');  
         }, (error) => {
           this.userProfile.loading = false;
           this.userProfile.error = error;
@@ -51,8 +53,8 @@ export default class UserService {
 
     profile() { // This should almost certainly be simplified, so it just returns this.userprofile etc
       // check to see if a call to authorize has populated the user data; if so, return it
-      if (this.userProfile.retrieved) {
-        return this.userProfile.data;
+      if (this.userProfile.loaded) {
+        return this.userProfile.user;
       }
       return null;
     }
