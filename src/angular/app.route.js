@@ -18,7 +18,7 @@ export default function($routeProvider, $locationProvider) {
       // login route
       .when('/login', {
         templateUrl : 'html/login.html'
-        , controller : 'mainController'
+        , controller : 'MainController'
         , controllerAs : 'login'
       })
 

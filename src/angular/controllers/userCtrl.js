@@ -3,7 +3,7 @@ angular.module('userCtrl', ['ServicesModule'])
 .service()
 
 // controller applied to user creation page
-.controller('userCreateController', function(User, Team, $location, $timeout, Auth, AuthToken, $window) {
+.controller('userCreateController', function(User, Team, $location, $timeout, Auth, TokenService, $window) {
 	'ngInclude';
 	var vm = this;
 

@@ -1,6 +1,6 @@
-angular.module('dashCtrl', ['dataService','authService','ServicesModule'])
+angular.module('dashCtrl', ['dataService', 'ServicesModule'])
 
-  .controller('dashController', function (Auth, User, $anchorScroll, $location, $timeout, Table, Team) {
+  .controller('dashController', function (AuthService, User, $anchorScroll, $location, $timeout, Table, Team) {
     'ngInject';
     var vm = this;
     vm.onOff = false

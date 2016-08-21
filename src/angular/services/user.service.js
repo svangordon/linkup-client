@@ -1,8 +1,8 @@
 export default class UserService {
     /*@ngInject;*/
-    constructor($http, AuthToken, $q) {
+    constructor($http, TokenService, $q) {
       this.$http = $http;
-      this.AuthToken = AuthToken;
+      this.TokenService = TokenService;
       this.$q = $q;
       this.userProfile = {
         loading: false,
@@ -20,7 +20,7 @@ export default class UserService {
         password: password
       })
         .then((data) => {
-          // AuthToken.setToken(data.data.token) //passprot ought to handle this now
+          // TokenService.setToken(data.data.token) //passprot ought to handle this now
           this.userProfile.loading = false;
           this.userProfile.loaded = true;
           this.userProfile.user = data // review this it's probably wrong

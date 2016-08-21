@@ -1,4 +1,4 @@
-angular.module('authService', [])
+angular.module('AuthService', [])
 
   .factory('Auth', function($http, $q, AuthToken, $rootScope) {
     'ngInject';

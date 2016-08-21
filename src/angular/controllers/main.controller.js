@@ -1,17 +1,17 @@
 // Controller for the overarching page
 // const dependancies = [$rootScope, $location, Auth, User];
-export default class mainController {
+export default class MainController {
 	/*@ngInject*/
-	constructor($rootScope, $location, Auth, UserService) {
+	constructor($rootScope, $location, AuthService, UserService) {
 		this.$rootScope = $rootScope;
 		this.$location = $location;
-		this.Auth = Auth;
+		this.AuthService = AuthService;
 		this.UserService = UserService;
 		this.loginData = {
 			username: "",
 			password: ""
 		};
-		this.loggedIn = this.Auth.isLoggedIn(); // this Auth thing should be looked at. It may be silly.
+		this.loggedIn = this.AuthService.isLoggedIn(); // this Auth thing should be looked at. It may be silly.
 
 // This isn't actually needed, and so should come out as soon as I'm sure it's junk
 // // TODO: Make this request logical and efficient (ie, make it only once)
@@ -120,7 +120,7 @@ export default class mainController {
 
 	// function to handle logging out
 	doLogout() {
-		this.Auth.logout();
+		this.AuthService.logout();
 		this.user = '';
 
 		this.$location.path('/');

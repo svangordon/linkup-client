@@ -1,6 +1,5 @@
-import mainController from './controllers/es6MainCtrl';
+import MainController from './controllers/main.controller.js';
 import appRoutes     from './app.route.js';
-import './services/authService';
 import './services/services.module.js';
 import './controllers/dashCtrl';
 import './controllers/userCtrl';
@@ -12,10 +11,10 @@ import UserService from './services/user.service.js';
 angular.module('linkupApp', [
   'ngRoute',
   // appRoutes',
-  'authService',
+  // 'AuthService',
   // 'UserService',
   // 'mainCtrl',
-  // 'ServicesModule',
+  'ServicesModule',
   'userCtrl',
   'dashCtrl',
   'dataService',
@@ -26,5 +25,5 @@ angular.module('linkupApp', [
     // $httpProvider.interceptors.push('AuthInterceptor');
     // myProvider.configable = 'this string was set in config'
   }*/)
-  .service('UserService', UserService)
-  .controller('mainController', mainController)
+  // .service('UserService', UserService)
+  .controller('MainController', MainController)
